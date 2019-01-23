@@ -108,7 +108,7 @@ export class Client {
     protected connect(colyseusid: string, options: any = {}, connectOptions: any = {}) {
         this.id = colyseusid || '';
 
-        this.connection = new Connection(this.buildEndpoint('', options), connectOptions);
+        this.connection = new Connection(this.buildEndpoint('', options), true, connectOptions);
         this.connection.onmessage = this.onMessageCallback.bind(this);
         this.connection.onclose = (e) => this.onClose.dispatch(e);
         this.connection.onerror = (e) => this.onError.dispatch(e);
