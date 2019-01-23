@@ -5,8 +5,8 @@ export class Connection extends WebSocketClient {
 
     private _enqueuedCalls: any[] = [];
 
-    constructor(url, autoConnect: boolean = true) {
-        super(url, undefined, { connect: autoConnect });
+    constructor(url, autoConnect: boolean = true, options = {}) {
+        super(url, undefined, Object.assign(options, {connect: autoConnect}));
     }
 
     public onOpenCallback(event) {
@@ -26,7 +26,7 @@ export class Connection extends WebSocketClient {
 
     public send(data: any): void {
         if (this.ws.readyState === WebSocketClient.OPEN) {
-            return super.send( msgpack.encode(data) );
+            return super.send(msgpack.encode(data));
 
         } else {
             // WebSocket not connected.
