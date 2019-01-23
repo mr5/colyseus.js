@@ -1,10 +1,10 @@
-import { Signal } from '@gamestdio/signals';
+import {Signal} from '@gamestdio/signals';
 import * as msgpack from './msgpack';
 
-import { Connection } from './Connection';
-import { Protocol } from './Protocol';
-import { Room, RoomAvailable } from './Room';
-import { getItem, setItem } from './Storage';
+import {Connection} from './Connection';
+import {Protocol} from './Protocol';
+import {Room, RoomAvailable} from './Room';
+import {getItem, setItem} from './Storage';
 
 export type JoinOptions = { retryTimes: number, requestId: number } & any;
 
@@ -19,16 +19,16 @@ export class Client {
 
     protected connection: Connection;
 
-    protected rooms: {[id: string]: Room} = {};
-    protected connectingRooms: {[id: string]: Room} = {};
+    protected rooms: { [id: string]: Room } = {};
+    protected connectingRooms: { [id: string]: Room } = {};
     protected requestId = 0;
 
     protected hostname: string;
-    protected roomsAvailableRequests: {[requestId: number]: (value?: RoomAvailable[]) => void} = {};
+    protected roomsAvailableRequests: { [requestId: number]: (value?: RoomAvailable[]) => void } = {};
 
-    constructor(url: string, options: any = {}) {
+    constructor(url: string, options: any = {}, connectOptions: any = {}) {
         this.hostname = url;
-        getItem('colyseusid', (colyseusid) => this.connect(colyseusid, options));
+        getItem('colyseusid', (colyseusid) => this.connect(colyseusid, options, connectOptions));
     }
 
     public join<T>(roomName: string, options: JoinOptions = {}): Room<T> {
@@ -36,7 +36,7 @@ export class Client {
     }
 
     public rejoin<T>(roomName: string, sessionId: string) {
-        return this.join(roomName, { sessionId });
+        return this.join(roomName, {sessionId});
     }
 
     public getAvailableRooms(roomName: string, callback: (rooms: RoomAvailable[], err?: string) => void) {
@@ -97,7 +97,7 @@ export class Client {
             });
         }
 
-        this.connectingRooms[ options.requestId ] = room;
+        this.connectingRooms[options.requestId] = room;
 
         this.connection.send([Protocol.JOIN_ROOM, roomName, options]);
 
@@ -105,10 +105,10 @@ export class Client {
 
     }
 
-    protected connect(colyseusid: string, options: any = {}) {
+    protected connect(colyseusid: string, options: any = {}, connectOptions: any = {}) {
         this.id = colyseusid || '';
 
-        this.connection = new Connection(this.buildEndpoint('', options));
+        this.connection = new Connection(this.buildEndpoint('', options), connectOptions);
         this.connection.onmessage = this.onMessageCallback.bind(this);
         this.connection.onclose = (e) => this.onClose.dispatch(e);
         this.connection.onerror = (e) => this.onError.dispatch(e);
@@ -139,7 +139,7 @@ export class Client {
      * @override
      */
     protected onMessageCallback(event) {
-        const message = msgpack.decode( new Uint8Array(event.data) );
+        const message = msgpack.decode(new Uint8Array(event.data));
         const code = message[0];
 
         if (code === Protocol.USER_ID) {
@@ -150,7 +150,7 @@ export class Client {
 
         } else if (code === Protocol.JOIN_ROOM) {
             const requestId = message[2];
-            const room = this.connectingRooms[ requestId ];
+            const room = this.connectingRooms[requestId];
 
             if (!room) {
                 console.warn('colyseus.js: client left room before receiving session id.');
@@ -161,7 +161,7 @@ export class Client {
             this.rooms[room.id] = room;
 
             room.connect(this.buildEndpoint(room.id, room.options));
-            delete this.connectingRooms[ requestId ];
+            delete this.connectingRooms[requestId];
 
         } else if (code === Protocol.JOIN_ERROR) {
             console.error('colyseus.js: server error:', message[2]);
