@@ -1,4 +1,5 @@
-import WebSocketClient, { Options } from 'reconnectingwebsocket';
+declare const WebSocketClient: any;
+import { Options } from 'reconnectingwebsocket';
 export declare class Connection extends WebSocketClient {
     private _enqueuedCalls;
     private listeners;
@@ -6,3 +7,4 @@ export declare class Connection extends WebSocketClient {
     onopen: (event: any) => void;
     send(data: any): void;
 }
+export {};

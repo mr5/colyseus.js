@@ -1,12 +1,13 @@
 // import WebSocketClient from '@gamestdio/websocket';
-import WebSocketClient, {Options} from 'reconnectingwebsocket';
+const WebSocketClient = require('reconnectingwebsocket');
+import {Options} from 'reconnectingwebsocket';
 import {EntityMap} from './index';
 import * as msgpack from './msgpack';
 
 export class Connection extends WebSocketClient {
 
     private _enqueuedCalls: any[] = [];
-    private listeners: EntityMap<(eventy: any) => void>;
+    private listeners: EntityMap<(eventy: any) => void> = {};
 
     constructor(url, autoConnect: boolean = true, options: Options = {}) {
         super(url, undefined, Object.assign({automaticOpen: autoConnect, binaryType: 'arraybuffer'}, options));

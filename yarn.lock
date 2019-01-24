@@ -2085,9 +2085,9 @@ readdirp@^2.0.0:
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
 
-"reconnectingwebsocket@git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e":
-  version "1.0.1"
-  resolved "git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e"
+reconnectingwebsocket@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/reconnectingwebsocket/-/reconnectingwebsocket-1.0.0.tgz#0b825babb37b670445c65aa7d3ed978300205444"
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"
