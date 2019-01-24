@@ -63,6 +63,10 @@ export class Client {
         this.connection.close();
     }
 
+    public refresh() {
+        this.connection.refresh();
+    }
+
     protected createRoom<T>(roomName: string, options: any = {}): Room<T> {
         return new Room<T>(roomName, options);
     }

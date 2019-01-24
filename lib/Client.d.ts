@@ -29,6 +29,7 @@ export declare class Client {
     rejoin<T>(roomName: string, sessionId: string): Room<{}>;
     getAvailableRooms(roomName: string, callback: (rooms: RoomAvailable[], err?: string) => void): void;
     close(): void;
+    refresh(): void;
     protected createRoom<T>(roomName: string, options?: any): Room<T>;
     protected createRoomRequest<T>(roomName: string, options: JoinOptions, reuseRoomInstance?: Room<T>, retryCount?: number): Room<T>;
     protected connect(colyseusid: string, options?: any, connectOptions?: any): void;

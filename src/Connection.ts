@@ -11,6 +11,17 @@ export class Connection extends WebSocketClient {
 
     constructor(url, autoConnect: boolean = true, options: Options = {}) {
         super(url, undefined, Object.assign({automaticOpen: autoConnect, binaryType: 'arraybuffer'}, options));
+        const parentSend = this.send;
+        const self = this;
+        this.send = (data: any): void => {
+            if (self.readyState === WebSocketClient.OPEN) {
+                return parentSend(msgpack.encode(data));
+            } else {
+                // WebSocket not connected.
+                // Enqueue data to be sent when readyState == OPEN
+                self._enqueuedCalls.push(['send', [data]]);
+            }
+        };
     }
 
     set onopen(listener: (event: any) => void) {
@@ -32,17 +43,5 @@ export class Connection extends WebSocketClient {
                 self._enqueuedCalls = [];
             }
         };
-    }
-
-
-    public send(data: any): void {
-        if (this.readyState === WebSocketClient.OPEN) {
-            return super.send(msgpack.encode(data));
-
-        } else {
-            // WebSocket not connected.
-            // Enqueue data to be sent when readyState == OPEN
-            this._enqueuedCalls.push(['send', [data]]);
-        }
     }
 }
