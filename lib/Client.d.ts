@@ -25,8 +25,8 @@ export declare class Client {
         [requestId: number]: (value?: RoomAvailable[]) => void;
     };
     constructor(url: string, options?: any, connectOptions?: Options);
-    join<T>(roomName: string, options?: JoinOptions): Room<T>;
-    rejoin<T>(roomName: string, sessionId: string): Room<{}>;
+    join<T>(roomName: string, options?: JoinOptions, reuseRoomInstance?: Room<T>, retryCount?: number): Room<T>;
+    rejoin<T>(roomName: string, sessionId: string, reuseRoomInstance?: Room<T>, retryCount?: number): Room<T>;
     getAvailableRooms(roomName: string, callback: (rooms: RoomAvailable[], err?: string) => void): void;
     close(): void;
     refresh(): void;
