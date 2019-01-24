@@ -14,10 +14,6 @@
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@gamestdio/state-listener/-/state-listener-3.1.0.tgz#d39fc5f107e58b536ac6e8477ed141ed7421788a"
 
-"@gamestdio/websocket@^0.3.0":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@gamestdio/websocket/-/websocket-0.3.1.tgz#7b2bc07a0a738f04f73a632bd00b208ccad5b80a"
-
 "@types/chai@^3.4.34":
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-3.5.2.tgz#c11cd2817d3a401b7ba0f5a420f35c56139b1c1e"
@@ -47,6 +43,10 @@
 "@types/node@*":
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+
+"@types/reconnectingwebsocket@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/reconnectingwebsocket/-/reconnectingwebsocket-1.0.1.tgz#56c6f19136ba265c16e7b2dc1bfbb97960a869d5"
 
 abbrev@1:
   version "1.1.1"
@@ -2084,6 +2084,10 @@ readdirp@^2.0.0:
     graceful-fs "^4.1.11"
     micromatch "^3.1.10"
     readable-stream "^2.0.2"
+
+"reconnectingwebsocket@git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e":
+  version "1.0.1"
+  resolved "git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e"
 
 regex-not@^1.0.0, regex-not@^1.0.2:
   version "1.0.2"

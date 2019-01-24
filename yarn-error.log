@@ -15,61 +15,62 @@ Platform:
 
 npm manifest: 
   {
-    "name": "colyseus.js",
-    "version": "0.9.16",
-    "description": "Multiplayer Game Client for the Browser",
-    "keywords": [
-      "multiplayer",
-      "mmo",
-      "networking",
-      "websockets"
-    ],
-    "repository": {
-      "type": "git",
-      "url": "git://github.com/gamestdio/colyseus.js.git"
-    },
-    "main": "lib/index.js",
-    "typings": "lib/index.d.ts",
-    "scripts": {
-      "test": "mocha test/*.ts --require ts-node/register",
-      "build": "webpack --env.production",
-      "watch": "tsc -w",
-      "prepublish": "tsc && npm run build",
-      "tslint": "tslint --project .",
-      "postinstall": "npm run -s donate",
-      "donate": "echo \"\u001b[35m\u001b[1mLove Colyseus? Support its development by becoming a backer:\u001b[22m\u001b[39m\n > \u001b[34mhttps://www.patreon.com/endel\u001b[39m\""
-    },
-    "engines": {
-      "node": ">= 5.x"
-    },
-    "dependencies": {
-      "@gamestdio/clock": "^1.1.0",
-      "@gamestdio/signals": "^1.0.0",
-      "@gamestdio/state-listener": "^3.1.0",
-      "@gamestdio/websocket": "git+https://github.com/mr5/websocket#master",
-      "fossil-delta": "^1.0.0",
-      "notepack.io": "^2.1.3"
-    },
-    "devDependencies": {
-      "@types/chai": "^3.4.34",
-      "@types/fast-json-patch": "^1.0.4",
-      "@types/fossil-delta": "^1.0.0",
-      "@types/mocha": "^2.2.44",
-      "@types/msgpack-lite": "^0.1.1",
-      "benchmark": "^2.1.4",
-      "chai": "^3.5.0",
-      "mocha": "^5.1.1",
-      "msgpack-lite": "^0.1.20",
-      "node-localstorage": "^1.3.1",
-      "nodemon": "^1.17.4",
-      "ts-loader": "^2.3.7",
-      "ts-node": "^6.0.3",
-      "tslint": "^5.9.1",
-      "typescript": "^2.8.1",
-      "uglify-js": "^2.6.1",
-      "webpack": "^3.6.0",
-      "ws": "^6.1.2"
-    }
+      "name": "colyseus.js",
+      "version": "0.9.16",
+      "description": "Multiplayer Game Client for the Browser",
+      "keywords": [
+          "multiplayer",
+          "mmo",
+          "networking",
+          "websockets"
+      ],
+      "repository": {
+          "type": "git",
+          "url": "git://github.com/gamestdio/colyseus.js.git"
+      },
+      "main": "lib/index.js",
+      "typings": "lib/index.d.ts",
+      "scripts": {
+          "test": "mocha test/*.ts --require ts-node/register",
+          "build": "webpack --env.production",
+          "watch": "tsc -w",
+          "prepublish": "tsc && npm run build",
+          "tslint": "tslint --project .",
+          "postinstall": "npm run -s donate",
+          "donate": "echo \"\u001b[35m\u001b[1mLove Colyseus? Support its development by becoming a backer:\u001b[22m\u001b[39m\n > \u001b[34mhttps://www.patreon.com/endel\u001b[39m\""
+      },
+      "engines": {
+          "node": ">= 5.x"
+      },
+      "dependencies": {
+          "@gamestdio/clock": "^1.1.0",
+          "@gamestdio/signals": "^1.0.0",
+          "@gamestdio/state-listener": "^3.1.0",
+          "fossil-delta": "^1.0.0",
+          "notepack.io": "^2.1.3",
+          "reconnectingwebsocket": "git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e"
+      },
+      "devDependencies": {
+          "@types/chai": "^3.4.34",
+          "@types/fast-json-patch": "^1.0.4",
+          "@types/fossil-delta": "^1.0.0",
+          "@types/mocha": "^2.2.44",
+          "@types/msgpack-lite": "^0.1.1",
+          "@types/reconnectingwebsocket": "^1.0.1",
+          "benchmark": "^2.1.4",
+          "chai": "^3.5.0",
+          "mocha": "^5.1.1",
+          "msgpack-lite": "^0.1.20",
+          "node-localstorage": "^1.3.1",
+          "nodemon": "^1.17.4",
+          "ts-loader": "^2.3.7",
+          "ts-node": "^6.0.3",
+          "tslint": "^5.9.1",
+          "typescript": "^2.8.1",
+          "uglify-js": "^2.6.1",
+          "webpack": "^3.6.0",
+          "ws": "^6.1.2"
+      }
   }
 
 yarn manifest: 
@@ -91,10 +92,6 @@ Lockfile:
   "@gamestdio/state-listener@^3.1.0":
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/@gamestdio/state-listener/-/state-listener-3.1.0.tgz#d39fc5f107e58b536ac6e8477ed141ed7421788a"
-  
-  "@gamestdio/websocket@git+https://github.com/mr5/websocket#master":
-    version "0.3.1"
-    resolved "git+https://github.com/mr5/websocket#1769c38b3cc4e2e977b15f42062084699b2ebad8"
   
   "@types/chai@^3.4.34":
     version "3.5.2"
@@ -125,6 +122,10 @@ Lockfile:
   "@types/node@*":
     version "10.12.18"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
+  
+  "@types/reconnectingwebsocket@^1.0.1":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/@types/reconnectingwebsocket/-/reconnectingwebsocket-1.0.1.tgz#56c6f19136ba265c16e7b2dc1bfbb97960a869d5"
   
   abbrev@1:
     version "1.1.1"
@@ -2162,6 +2163,10 @@ Lockfile:
       graceful-fs "^4.1.11"
       micromatch "^3.1.10"
       readable-stream "^2.0.2"
+  
+  "reconnectingwebsocket@git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e":
+    version "1.0.1"
+    resolved "git+https://github.com/mr5/reconnecting-websocket.git#6dcb6e9004a60c84f1d402540eab83a1125c493e"
   
   regex-not@^1.0.0, regex-not@^1.0.2:
     version "1.0.2"

@@ -1,6 +1,7 @@
 import { Signal } from '@gamestdio/signals';
 import { Connection } from './Connection';
 import { Room, RoomAvailable } from './Room';
+import { Options } from "reconnectingwebsocket";
 export declare type JoinOptions = {
     retryTimes: number;
     requestId: number;
@@ -23,7 +24,7 @@ export declare class Client {
     protected roomsAvailableRequests: {
         [requestId: number]: (value?: RoomAvailable[]) => void;
     };
-    constructor(url: string, options?: any, connectOptions?: any);
+    constructor(url: string, options?: any, connectOptions?: Options);
     join<T>(roomName: string, options?: JoinOptions): Room<T>;
     rejoin<T>(roomName: string, sessionId: string): Room<{}>;
     getAvailableRooms(roomName: string, callback: (rooms: RoomAvailable[], err?: string) => void): void;

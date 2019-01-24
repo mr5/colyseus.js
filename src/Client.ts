@@ -5,6 +5,7 @@ import {Connection} from './Connection';
 import {Protocol} from './Protocol';
 import {Room, RoomAvailable} from './Room';
 import {getItem, setItem} from './Storage';
+import {Options} from "reconnectingwebsocket";
 
 export type JoinOptions = { retryTimes: number, requestId: number } & any;
 
@@ -26,7 +27,7 @@ export class Client {
     protected hostname: string;
     protected roomsAvailableRequests: { [requestId: number]: (value?: RoomAvailable[]) => void } = {};
 
-    constructor(url: string, options: any = {}, connectOptions: any = {}) {
+    constructor(url: string, options: any = {}, connectOptions: Options = {}) {
         this.hostname = url;
         getItem('colyseusid', (colyseusid) => this.connect(colyseusid, options, connectOptions));
     }

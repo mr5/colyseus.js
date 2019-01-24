@@ -48,7 +48,7 @@ export class Room<T= any> extends StateContainer<T & any> {
 
     public connect(endpoint: string) {
         this.connection.url = endpoint;
-        this.connection.reconnectEnabled = false;
+        // this.connection.reconnectEnabled = false;
         this.connection.onmessage = this.onMessageCallback.bind(this);
         this.connection.onclose = (e) => this.onLeave.dispatch(e);
         this.connection.onerror = (e) => {

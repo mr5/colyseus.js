@@ -1,7 +1,8 @@
-import WebSocketClient from '@gamestdio/websocket';
+import WebSocketClient, { Options } from 'reconnectingwebsocket';
 export declare class Connection extends WebSocketClient {
     private _enqueuedCalls;
-    constructor(url: any, autoConnect?: boolean, options?: {});
-    onOpenCallback(event: any): void;
+    private listeners;
+    constructor(url: any, autoConnect?: boolean, options?: Options);
+    onopen: (event: any) => void;
     send(data: any): void;
 }

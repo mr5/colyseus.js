@@ -1,31 +1,41 @@
-import WebSocketClient from '@gamestdio/websocket';
+// import WebSocketClient from '@gamestdio/websocket';
+import WebSocketClient, {Options} from 'reconnectingwebsocket';
+import {EntityMap} from './index';
 import * as msgpack from './msgpack';
 
 export class Connection extends WebSocketClient {
 
     private _enqueuedCalls: any[] = [];
+    private listeners: EntityMap<(eventy: any) => void>;
 
-    constructor(url, autoConnect: boolean = true, options = {}) {
-        super(url, undefined, Object.assign(options, {connect: autoConnect}));
+    constructor(url, autoConnect: boolean = true, options: Options = {}) {
+        super(url, undefined, Object.assign({automaticOpen: autoConnect, binaryType: 'arraybuffer'}, options));
     }
 
-    public onOpenCallback(event) {
-        super.onOpenCallback();
+    set onopen(listener: (event: any) => void) {
+        this.listeners.onopen = listener;
+    }
 
-        this.binaryType = 'arraybuffer';
-
-        if (this._enqueuedCalls.length > 0) {
-            for (const [method, args] of this._enqueuedCalls) {
-                this[method].apply(this, args);
+    get onopen() {
+        const self = this;
+        return (event: any) => {
+            if (self.listeners.onopen) {
+                self.listeners.onopen.apply(null, [event]);
             }
+            if (self._enqueuedCalls.length > 0) {
+                for (const [method, args] of self._enqueuedCalls) {
+                    self[method].apply(self, args);
+                }
 
-            // clear enqueued calls.
-            this._enqueuedCalls = [];
-        }
+                // clear enqueued calls.
+                self._enqueuedCalls = [];
+            }
+        };
     }
+
 
     public send(data: any): void {
-        if (this.ws.readyState === WebSocketClient.OPEN) {
+        if (this.readyState === WebSocketClient.OPEN) {
             return super.send(msgpack.encode(data));
 
         } else {
@@ -34,5 +44,4 @@ export class Connection extends WebSocketClient {
             this._enqueuedCalls.push(['send', [data]]);
         }
     }
-
 }
