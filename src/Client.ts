@@ -32,12 +32,16 @@ export class Client {
         getItem('colyseusid', (colyseusid) => this.connect(colyseusid, options, connectOptions));
     }
 
-    public join<T>(roomName: string, options: JoinOptions = {}): Room<T> {
-        return this.createRoomRequest<T>(roomName, options);
+    public join<T>(roomName: string,
+                   options: JoinOptions = {},
+                   reuseRoomInstance?: Room<T>,
+                   retryCount?: number): Room<T> {
+        return this.createRoomRequest<T>(roomName, options, reuseRoomInstance, retryCount);
     }
 
-    public rejoin<T>(roomName: string, sessionId: string) {
-        return this.join(roomName, {sessionId});
+    public rejoin<T>(roomName: string, sessionId: string, reuseRoomInstance?: Room<T>,
+                     retryCount?: number) {
+        return this.join(roomName, {sessionId}, reuseRoomInstance, retryCount);
     }
 
     public getAvailableRooms(roomName: string, callback: (rooms: RoomAvailable[], err?: string) => void) {
