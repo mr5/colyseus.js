@@ -1,12 +1,12 @@
 import Clock = require('@gamestdio/clock');
-import { Signal } from '@gamestdio/signals';
+import {Signal} from '@gamestdio/signals';
 
-import { StateContainer } from '@gamestdio/state-listener';
+import {StateContainer} from '@gamestdio/state-listener';
 import * as fossilDelta from 'fossil-delta';
 import * as msgpack from './msgpack';
 
-import { Connection } from './Connection';
-import { Protocol } from './Protocol';
+import {Connection} from './Connection';
+import {Protocol} from './Protocol';
 
 export interface RoomAvailable {
     roomId: string;
@@ -15,7 +15,7 @@ export interface RoomAvailable {
     metadata?: any;
 }
 
-export class Room<T= any> extends StateContainer<T & any> {
+export class Room<T = any> extends StateContainer<T & any> {
     public id: string;
     public sessionId: string;
 
@@ -35,13 +35,13 @@ export class Room<T= any> extends StateContainer<T & any> {
     public connection: Connection;
     private _previousState: any;
 
-    constructor(name: string, options?: any) {
+    constructor(name: string, options?: any, connnection?: Connection) {
         super({});
         this.id = null;
 
         this.name = name;
         this.options = options;
-        this.connection = new Connection(undefined, false);
+        this.connection = connnection || new Connection(undefined, false);
 
         this.onLeave.add(() => this.removeAllListeners());
     }
@@ -68,7 +68,7 @@ export class Room<T= any> extends StateContainer<T & any> {
     }
 
     public send(data): void {
-        this.connection.send([ Protocol.ROOM_DATA, this.id, data ]);
+        this.connection.send([Protocol.ROOM_DATA, this.id, data]);
     }
 
     public get hasJoined() {
@@ -85,7 +85,7 @@ export class Room<T= any> extends StateContainer<T & any> {
     }
 
     protected onMessageCallback(event) {
-        const message = msgpack.decode( new Uint8Array(event.data) );
+        const message = msgpack.decode(new Uint8Array(event.data));
         const code = message[0];
 
         if (code === Protocol.JOIN_ROOM) {
@@ -101,10 +101,10 @@ export class Room<T= any> extends StateContainer<T & any> {
             const remoteCurrentTime = message[2];
             const remoteElapsedTime = message[3];
 
-            this.setState( state, remoteCurrentTime, remoteElapsedTime );
+            this.setState(state, remoteCurrentTime, remoteElapsedTime);
 
         } else if (code === Protocol.ROOM_STATE_PATCH) {
-            this.patch( message[1] );
+            this.patch(message[1]);
 
         } else if (code === Protocol.ROOM_DATA) {
             this.onMessage.dispatch(message[1]);
@@ -114,11 +114,11 @@ export class Room<T= any> extends StateContainer<T & any> {
         }
     }
 
-    protected setState( encodedState: Buffer, remoteCurrentTime?: number, remoteElapsedTime?: number ): void {
+    protected setState(encodedState: Buffer, remoteCurrentTime?: number, remoteElapsedTime?: number): void {
         const state = msgpack.decode(encodedState);
         this.set(state);
 
-        this._previousState = new Uint8Array( encodedState );
+        this._previousState = new Uint8Array(encodedState);
 
         // set remote clock properties
         if (remoteCurrentTime && remoteElapsedTime) {
@@ -131,12 +131,12 @@ export class Room<T= any> extends StateContainer<T & any> {
         this.onStateChange.dispatch(state);
     }
 
-    protected patch( binaryPatch ) {
+    protected patch(binaryPatch) {
         // apply patch
         this._previousState = Buffer.from(fossilDelta.apply(this._previousState, binaryPatch));
 
         // trigger state callbacks
-        this.set( msgpack.decode( this._previousState ) );
+        this.set(msgpack.decode(this._previousState));
 
         this.onStateChange.dispatch(this.state);
     }

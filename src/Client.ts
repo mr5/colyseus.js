@@ -1,11 +1,10 @@
 import {Signal} from '@gamestdio/signals';
-import * as msgpack from './msgpack';
-
+import {Options} from 'reconnectingwebsocket';
 import {Connection} from './Connection';
+import * as msgpack from './msgpack';
 import {Protocol} from './Protocol';
 import {Room, RoomAvailable} from './Room';
 import {getItem, setItem} from './Storage';
-import {Options} from "reconnectingwebsocket";
 
 export type JoinOptions = { retryTimes: number, requestId: number } & any;
 
@@ -69,6 +68,10 @@ export class Client {
 
     public refresh() {
         this.connection.refresh();
+    }
+
+    public open() {
+        this.connection.open();
     }
 
     protected createRoom<T>(roomName: string, options: any = {}): Room<T> {
