@@ -7,6 +7,7 @@ import * as msgpack from './msgpack';
 
 import {Connection} from './Connection';
 import {Protocol} from './Protocol';
+import {Options} from "reconnectingwebsocket";
 
 export interface RoomAvailable {
     roomId: string;
@@ -35,13 +36,13 @@ export class Room<T = any> extends StateContainer<T & any> {
     public connection: Connection;
     private _previousState: any;
 
-    constructor(name: string, options?: any, connnection?: Connection) {
+    constructor(name: string, options?: any, connnection?: Connection, connectOptions?: Options) {
         super({});
         this.id = null;
 
         this.name = name;
         this.options = options;
-        this.connection = connnection || new Connection(undefined, false);
+        this.connection = connnection || new Connection(undefined, false, connectOptions);
 
         this.onLeave.add(() => this.removeAllListeners());
     }

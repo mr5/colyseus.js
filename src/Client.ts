@@ -24,6 +24,7 @@ export class Client {
     protected requestId = 0;
 
     protected hostname: string;
+    protected connectOptions: Options;
     protected roomsAvailableRequests: { [requestId: number]: (value?: RoomAvailable[]) => void } = {};
 
     constructor(url: string, options: any = {}, connectOptions: Options = {}) {
@@ -75,7 +76,7 @@ export class Client {
     }
 
     protected createRoom<T>(roomName: string, options: any = {}): Room<T> {
-        return new Room<T>(roomName, options);
+        return new Room<T>(roomName, options, null, this.connectOptions);
     }
 
     protected createRoomRequest<T>(
